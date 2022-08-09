@@ -21,7 +21,7 @@ namespace Clicker.Shared
         private async Task IncreaseValueAsync()
         {
             CounterInfo.Value++;
-            await OnSaveState.InvokeAsync();
+            await OnSaveState.InvokeAsync().ConfigureAwait(false);
         }
 
         private async Task DecreaseValueAsync()
@@ -29,24 +29,24 @@ namespace Clicker.Shared
             if (CounterInfo.Value > 0)
             {
                 CounterInfo.Value--;
-                await OnSaveState.InvokeAsync();
+                await OnSaveState.InvokeAsync().ConfigureAwait(false);
             }
         }
 
         private async Task RenameCounterAsync()
         {
-            var newName = await JSRuntime.InvokeAsync<string>("prompt", "Name", CounterInfo.Name);
+            var newName = await JSRuntime.InvokeAsync<string>("prompt", "Name", CounterInfo.Name).ConfigureAwait(false);
             if (!string.IsNullOrWhiteSpace(newName))
             {
                 CounterInfo.Name = newName;
-                await OnSaveState.InvokeAsync();
+                await OnSaveState.InvokeAsync().ConfigureAwait(false);
             }
         }
 
         private async Task RemoveCounterAsync()
         {
-            if (await JSRuntime.InvokeAsync<bool>("confirm", "Wirklich löschen?"))
-                await OnRemoveCounter.InvokeAsync(CounterInfo);
+            if (await JSRuntime.InvokeAsync<bool>("confirm", "Wirklich löschen?").ConfigureAwait(false))
+                await OnRemoveCounter.InvokeAsync(CounterInfo).ConfigureAwait(false);
         }
     }
 }
