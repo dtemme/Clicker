@@ -1,0 +1,19 @@
+﻿<div class="mb-4">
+    <div class="d-flex flex-nowrap mb-2">
+        <button class="btn btn btn-lg" @onclick="RemoveCounterAsync"><span class="oi oi-x"></span></button>
+        <button class="btn btn btn-lg" @onclick="RenameCounterAsync"><span class="oi oi-pencil"></span></button>
+        <div class="h1" @onclick="RenameCounterAsync">@CounterInfo.Name</div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <button class="btn btn-primary h-100" @onclick="DecreaseValueAsync"><span class="oi oi-minus btn-lg"></span></button>
+        </div>
+        <div class="col-4 mt-4 mb-4">
+            <div class="h1 text-center">@CounterInfo.Value</div>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary h-100 w-100" @onclick="IncreaseValueAsync"><span class="oi oi-plus btn-lg"></span></button>
+        </div>
+    </div>
+    <hr />
+</div>
