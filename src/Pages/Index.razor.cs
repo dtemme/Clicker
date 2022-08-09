@@ -16,18 +16,18 @@ namespace Clicker.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-            await LoadStateAsync();
+            await base.OnInitializedAsync().ConfigureAwait(false);
+            await LoadStateAsync().ConfigureAwait(false);
         }
 
         private async Task SaveStateAsync()
         {
-            await LocalStorage.SetItemAsync(CounterStatesStorageKey, Counters);
+            await LocalStorage.SetItemAsync(CounterStatesStorageKey, Counters).ConfigureAwait(false);
         }
 
         private async Task LoadStateAsync()
         {
-            var counters = await LocalStorage.GetItemAsync<IList<CounterInfo>>(CounterStatesStorageKey);
+            var counters = await LocalStorage.GetItemAsync<IList<CounterInfo>>(CounterStatesStorageKey).ConfigureAwait(false);
             if (counters != null)
                 Counters = counters;
         }
@@ -35,13 +35,13 @@ namespace Clicker.Pages
         private async Task AddCounterAsync()
         {
             Counters.Add(new CounterInfo { Name = "Neu" });
-            await SaveStateAsync();
+            await SaveStateAsync().ConfigureAwait(false);
         }
 
         private async Task RemoveCounterAsync(CounterInfo info)
         {
             Counters.Remove(info);
-            await SaveStateAsync();
+            await SaveStateAsync().ConfigureAwait(false);
         }
     }
 }
