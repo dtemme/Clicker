@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<PageTitle>Klicker</PageTitle>
+
+<h1>Klicker</h1>
+<hr />
+<Iterations Items="Counters" Context="counter">
+    <Counter CounterInfo="counter" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveCounterAsync" />
+</Iterations>
+
+<button class="btn btn-primary btn-lg addCounterButton" @onclick="AddCounterAsync">
+    <span class="oi oi-plus"></span>
+</button>
