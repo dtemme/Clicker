@@ -16,6 +16,9 @@ namespace Clicker.Shared
         public EventCallback OnSaveState { get; set; }
 
         [Parameter]
+        public bool DarkMode { get; set; }
+
+        [Parameter]
         public EventCallback<CounterInfo> OnRemoveCounter { get; set; }
 
         private async Task IncreaseValueAsync()
@@ -29,6 +32,15 @@ namespace Clicker.Shared
             if (CounterInfo.Value > 0)
             {
                 CounterInfo.Value--;
+                await OnSaveState.InvokeAsync().ConfigureAwait(false);
+            }
+        }
+
+        private async Task ClearCounterAsync()
+        {
+            if (CounterInfo.Value > 0)
+            {
+                CounterInfo.Value = 0;
                 await OnSaveState.InvokeAsync().ConfigureAwait(false);
             }
         }

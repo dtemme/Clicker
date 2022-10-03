@@ -2,10 +2,14 @@
 
 <PageTitle>Klicker</PageTitle>
 
-<h1>Klicker</h1>
+<button class="btn btn-primary" @onclick="ToggleDarkMode">
+    <span class="oi @(DarkMode ? "oi-sun" : "oi-moon")"></span>
+</button>
+
 <hr />
+
 <Iterations Items="Counters" Context="counter">
-    <Counter CounterInfo="counter" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveCounterAsync" />
+    <Counter CounterInfo="counter" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveCounterAsync" DarkMode="DarkMode" />
 </Iterations>
 
 <button class="btn btn-primary btn-lg addCounterButton" @onclick="AddCounterAsync">
