@@ -5,6 +5,7 @@
     <LangVersion>latest</LangVersion>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     <PublishIISAssets>true</PublishIISAssets>
+    <RunAOTCompilation>true</RunAOTCompilation>
   </PropertyGroup>
 
   <ItemGroup>
