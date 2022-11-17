@@ -2,63 +2,62 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Clicker.Shared
+namespace Clicker.Shared;
+
+public partial class Counter
 {
-    public partial class Counter
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+
+    [Parameter]
+    public CounterInfo CounterInfo { get; set; }
+
+    [Parameter]
+    public EventCallback OnSaveState { get; set; }
+
+    [Parameter]
+    public bool DarkMode { get; set; }
+
+    [Parameter]
+    public EventCallback<CounterInfo> OnRemoveCounter { get; set; }
+
+    private async Task IncreaseValueAsync()
     {
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
+        CounterInfo.Value++;
+        await OnSaveState.InvokeAsync().ConfigureAwait(false);
+    }
 
-        [Parameter]
-        public CounterInfo CounterInfo { get; set; }
-
-        [Parameter]
-        public EventCallback OnSaveState { get; set; }
-
-        [Parameter]
-        public bool DarkMode { get; set; }
-
-        [Parameter]
-        public EventCallback<CounterInfo> OnRemoveCounter { get; set; }
-
-        private async Task IncreaseValueAsync()
+    private async Task DecreaseValueAsync()
+    {
+        if (CounterInfo.Value > 0)
         {
-            CounterInfo.Value++;
+            CounterInfo.Value--;
             await OnSaveState.InvokeAsync().ConfigureAwait(false);
         }
+    }
 
-        private async Task DecreaseValueAsync()
+    private async Task ClearCounterAsync()
+    {
+        if (CounterInfo.Value > 0)
         {
-            if (CounterInfo.Value > 0)
-            {
-                CounterInfo.Value--;
-                await OnSaveState.InvokeAsync().ConfigureAwait(false);
-            }
+            CounterInfo.Value = 0;
+            await OnSaveState.InvokeAsync().ConfigureAwait(false);
         }
+    }
 
-        private async Task ClearCounterAsync()
+    private async Task RenameCounterAsync()
+    {
+        var newName = await JSRuntime.InvokeAsync<string>("prompt", "Name", CounterInfo.Name).ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(newName))
         {
-            if (CounterInfo.Value > 0)
-            {
-                CounterInfo.Value = 0;
-                await OnSaveState.InvokeAsync().ConfigureAwait(false);
-            }
+            CounterInfo.Name = newName;
+            await OnSaveState.InvokeAsync().ConfigureAwait(false);
         }
+    }
 
-        private async Task RenameCounterAsync()
-        {
-            var newName = await JSRuntime.InvokeAsync<string>("prompt", "Name", CounterInfo.Name).ConfigureAwait(false);
-            if (!string.IsNullOrWhiteSpace(newName))
-            {
-                CounterInfo.Name = newName;
-                await OnSaveState.InvokeAsync().ConfigureAwait(false);
-            }
-        }
-
-        private async Task RemoveCounterAsync()
-        {
-            if (await JSRuntime.InvokeAsync<bool>("confirm", "Wirklich löschen?").ConfigureAwait(false))
-                await OnRemoveCounter.InvokeAsync(CounterInfo).ConfigureAwait(false);
-        }
+    private async Task RemoveCounterAsync()
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Wirklich löschen?").ConfigureAwait(false))
+            await OnRemoveCounter.InvokeAsync(CounterInfo).ConfigureAwait(false);
     }
 }
