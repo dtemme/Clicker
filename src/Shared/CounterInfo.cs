@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Clicker.Shared
+namespace Clicker.Shared;
+
+public class CounterInfo
 {
-    public class CounterInfo
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string Name { get; set; }
-        public int Value { get; set; }
-    }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; }
+    public int Value { get; set; }
 }
